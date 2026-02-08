@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#"  lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="description" content="Удобный и быстрый генератор случайных чисел и рандомайзер. А ещё выбор победителей из списка, генераторы имен, паролей и промокодов.">
+    <meta name="keywords" content="генератор случайных чисел, рандома, рандомайзер определение победителя конкурса вконтакте, для розыгрыша, для лотереи, для конкурса, хранение результатов">
+        <meta property="og:image" content="https://static.randomus.ru/static/resource/img/sharing.png?19"/>
+            <meta property="og:site_name" content="Рандомус"/>
+    <meta property="og:title" content="Генератор случайных чисел Рандомус"/>
+    <meta property="og:type" content="website"/>
+    <title>Генератор случайных чисел Рандомус</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css?19">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="rnd_common.css">
+            <link rel="icon" href="https://static.randomus.ru/static/resource/img/randomus_favicon.svg?19" type="image/svg+xml">
+    <link rel="icon" sizes="32x32" href="https://static.randomus.ru/static/resource/img/randomus_favicon_32.png?19" type="image/png">
+    <link rel="icon" sizes="192x192" href="https://static.randomus.ru/static/resource/img/randomus_favicon_192.png?19" type="image/png">
+        <link rel="apple-touch-icon" href="https://static.randomus.ru/static/resource/img/randomus_icon_180.png?19">
+
+        <script>window.yaContextCb = window.yaContextCb || []</script>
+    <script src="https://yandex.ru/ads/system/context.js" async></script>
+    </head>
+<body>
+<div class="rand-modal-cover is-hidden"></div>
+<div class="rand-modal-modal is-hidden">
+    <div class="rand-modal-content is-hidden">
+        <p class="mb-2"><span class='icon is-size-3'><i class='fad fa-loader fa-spin'></i></span></p>
+        <div id="modal_text">Получаем данные</div>
+    </div>
+</div>
+
+<div id="all_content" class="container">
+    <nav id="top_menu" class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="index.html">
+                <div class="randomus_logo title">
+                    <svg viewBox="0 0 3168 512">
+    <title>Рандомус</title>
+    <g class="rnd-logo">
+        <g class="rnd-logo-text">
+            <path d="M791.846,90.633c45.428,-0 80.813,11.125 106.153,33.375c25.65,22.251 38.475,53.463 38.475,93.638c0,38.011 -11.589,67.832 -34.766,89.465c-22.869,21.632 -55.008,32.448 -96.419,32.448c-13.597,0 -26.886,-1.39 -39.865,-4.172c-12.67,-2.781 -26.422,-7.417 -41.256,-13.906l0,96.882l-74.168,-0l-0,-191.91c-0,-43.574 12.052,-77.104 36.157,-100.59c24.414,-23.487 59.643,-35.23 105.689,-35.23Zm0.464,192.373c21.941,0 38.784,-5.562 50.527,-16.688c12.052,-11.125 18.078,-26.886 18.078,-47.282c0,-20.705 -6.026,-36.775 -18.078,-48.209c-11.743,-11.434 -28.122,-17.151 -49.136,-17.151c-21.942,-0 -39.093,6.335 -51.454,19.005c-12.053,12.67 -18.079,30.44 -18.079,53.308l0,36.157c9.271,6.49 19.778,11.589 31.521,15.298c12.053,3.708 24.26,5.562 36.621,5.562Zm441.3,-114.033l0,249.39l-69.069,-0l0,-28.74c-17.924,21.632 -43.883,32.448 -77.876,32.448c-23.487,0 -44.81,-5.253 -63.97,-15.76c-18.851,-10.508 -33.685,-25.496 -44.501,-44.965c-10.816,-19.469 -16.224,-42.028 -16.224,-67.678c-0,-25.65 5.408,-48.209 16.224,-67.679c10.816,-19.469 25.65,-34.457 44.501,-44.964c19.16,-10.507 40.483,-15.761 63.97,-15.761c31.83,0 56.707,10.044 74.631,30.131l0,-26.422l72.314,-0Zm-134.429,193.764c18.233,-0 33.375,-6.181 45.428,-18.542c12.052,-12.671 18.078,-29.513 18.078,-50.527c0,-21.015 -6.026,-37.702 -18.078,-50.064c-12.053,-12.67 -27.195,-19.005 -45.428,-19.005c-18.542,-0 -33.84,6.335 -45.892,19.005c-12.052,12.362 -18.078,29.049 -18.078,50.064c-0,21.014 6.026,37.856 18.078,50.527c12.052,12.361 27.35,18.542 45.892,18.542Zm202.571,-193.764l71.851,-0l-0,97.345l108.471,0l-0,-97.345l72.313,-0l0,249.39l-72.313,-0l-0,-93.174l-108.471,0l-0,93.174l-71.851,-0l0,-249.39Zm576.194,-0l-0,207.67c-0,45.737 -11.898,79.731 -35.694,101.981c-23.795,22.251 -58.561,33.376 -104.298,33.376c-24.105,0 -46.973,-2.936 -68.606,-8.807c-21.632,-5.872 -39.556,-14.371 -53.772,-25.496l28.74,-51.917c10.508,8.653 23.796,15.451 39.866,20.396c16.07,5.253 32.139,7.88 48.209,7.88c25.032,0 43.419,-5.717 55.163,-17.151c12.052,-11.125 18.078,-28.122 18.078,-50.991l-0,-10.661c-18.851,20.705 -45.119,31.058 -78.804,31.058c-22.868,-0 -43.882,-4.945 -63.042,-14.834c-18.851,-10.198 -33.84,-24.414 -44.965,-42.647c-11.125,-18.233 -16.688,-39.247 -16.688,-63.043c0,-23.795 5.563,-44.809 16.688,-63.042c11.125,-18.233 26.114,-32.294 44.965,-42.184c19.16,-10.198 40.174,-15.297 63.042,-15.297c36.157,0 63.661,11.898 82.512,35.694l0,-31.985l68.606,-0Zm-136.748,178.003c19.161,0 34.767,-5.563 46.819,-16.688c12.361,-11.434 18.542,-26.268 18.542,-44.501c0,-18.233 -6.181,-32.912 -18.542,-44.037c-12.052,-11.434 -27.658,-17.151 -46.819,-17.151c-19.16,-0 -34.92,5.717 -47.282,17.151c-12.361,11.125 -18.542,25.804 -18.542,44.037c0,18.233 6.181,33.067 18.542,44.501c12.362,11.125 28.122,16.688 47.282,16.688Zm318.456,75.095c-26.268,0 -49.909,-5.408 -70.923,-16.224c-20.705,-11.125 -36.929,-26.422 -48.673,-45.892c-11.743,-19.469 -17.615,-41.565 -17.615,-66.287c0,-24.723 5.872,-46.819 17.615,-66.288c11.744,-19.469 27.968,-34.612 48.673,-45.428c21.014,-11.125 44.655,-16.688 70.923,-16.688c26.268,0 49.755,5.563 70.46,16.688c20.705,10.816 36.929,25.959 48.673,45.428c11.743,19.469 17.615,41.565 17.615,66.288c-0,24.722 -5.872,46.818 -17.615,66.287c-11.744,19.47 -27.968,34.767 -48.673,45.892c-20.705,10.816 -44.192,16.224 -70.46,16.224Zm0,-59.334c18.542,-0 33.685,-6.181 45.428,-18.542c12.053,-12.671 18.079,-29.513 18.079,-50.527c-0,-21.015 -6.026,-37.702 -18.079,-50.064c-11.743,-12.67 -26.886,-19.005 -45.428,-19.005c-18.542,-0 -33.839,6.335 -45.891,19.005c-12.052,12.362 -18.079,29.049 -18.079,50.064c0,21.014 6.027,37.856 18.079,50.527c12.052,12.361 27.349,18.542 45.891,18.542Zm425.073,55.626l-0,-149.263l-74.632,125.158l-30.594,0l-72.778,-125.622l0,149.727l-65.36,-0l-0,-249.39l75.558,-0l79.731,144.164l84.83,-144.164l67.678,-0l0.927,249.39l-65.36,-0Zm384.283,-249.39l-0,207.67c-0,45.737 -11.589,79.731 -34.766,101.981c-23.178,22.251 -56.862,33.376 -101.054,33.376c-23.487,0 -45.737,-2.936 -66.752,-8.807c-20.705,-5.872 -38.165,-14.371 -52.381,-25.496l28.74,-51.917c10.508,8.653 23.332,15.451 38.475,20.396c15.143,4.944 30.44,7.417 45.892,7.417c24.104,-0 41.719,-5.563 52.844,-16.688c11.126,-11.125 16.688,-28.122 16.688,-50.991l0,-8.344c-9.271,9.271 -20.242,16.379 -32.912,21.324c-12.67,4.944 -26.268,7.417 -40.792,7.417c-32.758,-0 -58.717,-9.271 -77.877,-27.814c-19.16,-18.851 -28.74,-46.973 -28.74,-84.366l0,-125.158l72.314,-0l-0,114.497c-0,40.483 16.842,60.725 50.527,60.725c17.306,-0 31.212,-5.563 41.719,-16.688c10.508,-11.434 15.761,-28.277 15.761,-50.527l0,-108.007l72.314,-0Zm187.274,253.098c-26.577,0 -50.527,-5.408 -71.85,-16.224c-21.014,-11.125 -37.548,-26.422 -49.6,-45.892c-11.743,-19.469 -17.615,-41.565 -17.615,-66.287c0,-24.723 5.872,-46.819 17.615,-66.288c12.052,-19.469 28.586,-34.612 49.6,-45.428c21.323,-11.125 45.273,-16.688 71.85,-16.688c26.268,0 49.137,5.563 68.606,16.688c19.778,10.816 34.148,26.422 43.11,46.819l-56.09,30.13c-12.979,-22.868 -31.676,-34.302 -56.089,-34.302c-18.851,-0 -34.457,6.18 -46.819,18.542c-12.361,12.361 -18.542,29.203 -18.542,50.527c0,21.323 6.181,38.165 18.542,50.527c12.362,12.361 27.968,18.542 46.819,18.542c24.722,-0 43.419,-11.434 56.089,-34.303l56.09,30.594c-8.962,19.779 -23.332,35.23 -43.11,46.355c-19.469,11.126 -42.338,16.688 -68.606,16.688Z" />
+        </g>
+        <g class="rnd-logo-icon">
+            <path class="rnd-logo-icon-top" d="M222.528,158.982c30.791,49.246 45.493,61.072 88.842,66.239c32.931,3.925 71.468,1.327 106.248,1.924c16.435,0.285 63.679,-0.278 80.133,-3.826c14.362,-3.101 16.745,-10.157 12.1,-22.229c-10.308,-26.83 -53.402,-94.652 -72.255,-118.04c-12.959,-16.078 -26.82,-29.922 -41.947,-41.435c-21.305,-16.211 -44.582,-26.438 -70.463,-32.375c-46.886,-9.763 -83.676,-11.908 -132.063,-5.868c-22.123,2.761 -43.343,7.786 -37.355,32.751c5.682,23.672 51.414,98.323 66.76,122.859   "/>
+            <path class="rnd-logo-icon-right" d="M354.866,282.12c-58.045,2.047 -75.64,8.866 -101.787,43.82c-19.863,26.559 -36.884,61.228 -54.795,91.053c-8.463,14.094 -31.597,55.286 -36.751,71.317c-4.497,13.984 0.43,19.572 13.202,21.591c28.391,4.481 108.671,1.077 138.354,-3.561c20.396,-3.183 39.32,-8.261 56.857,-15.606c24.692,-10.349 45.188,-25.394 63.27,-44.835c31.892,-35.725 52.144,-66.517 71.114,-111.442c8.665,-20.537 14.928,-41.425 -9.689,-48.725c-23.34,-6.915 -110.855,-4.633 -139.775,-3.612"/>
+            <path class="rnd-logo-icon-left" d="M184.331,333.395c26.489,-49.861 29.301,-67.986 12.586,-106.987c-12.705,-29.639 -33.619,-60.817 -50.02,-90.39c-7.754,-13.977 -31.189,-53.474 -42.178,-65.602c-9.587,-10.584 -16.683,-9.158 -24.596,0.62c-17.572,21.722 -53.726,90.965 -64.249,118.204c-7.235,18.723 -12.156,37.124 -14.494,55.452c-3.293,25.817 -0.587,50.386 6.992,75.06c14.57,44.215 30.649,76.231 59.251,114.032c13.075,17.286 27.622,32.707 45.729,15.528c17.168,-16.289 57.786,-91.077 70.979,-115.917"/>
+        </g>
+    </g>
+</svg>                </div>
+            </a>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+               data-target="navbar_top">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbar_top" class="navbar-menu">
+                                    <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link"><span class='icon'><i class='fad fa-list-timeline'></i></span>Наши сервисы</a>
+                    <div class="navbar-dropdown is-boxed">
+                        <a class="navbar-item" href="/quick"><span class='icon'><i class='fad fa-dice'></i></span>Генератор
+                            случайных чисел</a>
+                        <a class="navbar-item" href="/simple"><span class='icon'><i class='fad fa-binary'></i></span>Лаконичный рандомайзер</a>
+                        <a class="navbar-item" href="/list">
+                            <span class='icon'><i class='fad fa-list-radio'></i></span>Выбор победителя из списка</a>
+                        <a class="navbar-item" href="/split">
+                            <span class='icon'><i class='fad fa-split'></i></span>Разделить список на группы</a>
+                        <a class="navbar-item" href="/ask"><span class='icon'><i class='fad fa-crystal-ball'></i></span>Выбор случайного
+                            ответа</a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item"
+                           href="/special"><span class='icon'><i class='fad fa-ranking-star'></i></span>SPECIAL страница<br>для розыгрыша призов</a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item"
+                           href="/screencast"><span class='icon'><i class='fad fa-video'></i></span>Запись скринкастов<sup class="ml-1 has-text-danger">new</sup></a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item"
+                           href="/number?type=generate"><span class='icon'><i class='fad fa-link'></i></span>Случайное
+                            число<br>cо ссылкой на результат</a>
+                        <a class="navbar-item"
+                           href="/number?type=create"><span class='icon'><i class='fad fa-pen-nib'></i></span>                            Розыгрыш<br>с описанием</a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" href="/nickname"><span class='icon'><i class='fad fa-user-secret'></i></span>Генератор
+                            ников</a>
+                        <a class="navbar-item" href="/name"><span class='icon'><i class='fad fa-users'></i></span>Генератор имен и
+                            фамилий</a>
+                        <a class="navbar-item" href="/password"><span class='icon'><i class='fad fa-star-of-life'></i></span>Генератор
+                            паролей</a>
+                        <a class="navbar-item" href="/promocode"><span class='icon'><i class='fad fa-percent'></i></span>Генератор
+                            промокодов</a>
+                        <a class="navbar-item" href="/horoscope"><span class='icon'><i class='fad fa-stars'></i></span>Генератор
+                            гороскопов</a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" href="/wordle"><span class='icon'><i class='fad fa-square-w'></i></span>Слова для Wordle
+                            или «5 букв»</a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" href="/vk"><span class='icon'><i class='fab fa-vk'></i></span>Конкурс ВКонтакте</a>
+                    </div>
+                </div>
+                                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-link is-outlined" href="/login">
+                                <span class='icon mr-1'><i class='fad fa-right-to-bracket'></i></span>Войти в личный кабинет
+                            </a>
+                        </div>
+                    </div>
+                            </div>
+                    </div>
+    </nav>
+    <section id="rnd_main_section" class="section is-paddingless-mobile pb-4">
+
+        <div class="hero is-small-mobile">
+    <div class="hero-body is-paddingless-mobile pt-2">
+        <div class="container has-text-centered">
+            <h2 class="title is-4">
+                Рандомайзер для чисел и данных, выбор победителей
+            </h2>
+
+            <div class="level is-hidden-mobile">
+                <div class="has-text-right level-item" title="Наша статистика">
+                    <div>
+                        <p class="heading">&nbsp;</p>
+                        <p class="title has-text-link"><span class='icon mr-1'><i class='fad fa-chart-column'></i></span></p>
+                    </div>
+                </div>
+                <div class="has-text-centered level-item" title="Сервис запущен в марте 2013 года">
+                    <div>
+                        <p class="has-text-grey heading">Работаем</p>
+                        <p class="is-size-5 title">12 лет</p>
+                    </div>
+                </div>
+                <div class="has-text-centered level-item">
+                    <a href="/quick" title="Сгенерировано">
+                        <div>
+                            <p class="has-text-grey heading">Случайных чисел</p>
+                            <p class="is-size-5 title">1&nbsp;963&nbsp;847&nbsp;621</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="has-text-centered level-item">
+                    <a href="/vk" title="Найдено">
+                        <div>
+                            <p class="has-text-grey heading">Победителей для VK</p>
+                            <p class="is-size-5 title">144&nbsp;295</p>
+                        </div>
+                    </a>
+                </div>
+                <!--
+                <div class="has-text-centered level-item">
+                    <a href="/password" title="Сгенерировано">
+                        <div>
+                            <p class="has-text-grey heading">Паролей</p>
+                            <p class="is-size-5 title">118&nbsp;098&nbsp;933</p>
+                        </div>
+                    </a>
+                </div>
+                -->
+                <div class="has-text-centered level-item">
+                    <a href="/name" title="Сгенерировано">
+                        <div>
+                            <p class="has-text-grey heading">Случайных имен</p>
+                            <p class="is-size-5 title">622&nbsp;034&nbsp;996</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="has-text-centered level-item">
+                    <a href="/nickname" title="Сгенерировано">
+                        <div>
+                            <p class="has-text-grey heading">Случайных ников</p>
+                            <p class="is-size-5 title">275&nbsp;635&nbsp;500</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="has-text-centered level-item">
+                    <a href="/special" title="Нижняя оценка призового фонда масштабных розыгрышей, проведенных с участием Рандомуса">
+                        <div>
+                            <p class="has-text-grey heading">Разыграно</p>
+                            <p class="is-size-5 title">больше 775 млн.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="columns">
+    <div class="column is-narrow">
+        <div class="notification box form-box">
+    <div class="content">
+        <h1 class="title is-4"><a class="no_decoration" href="/quick">Генератор случайных чисел</a>
+        </h1>
+        <p class="subtitle has-text-grey is-6 mt-1">
+            до 1&thinsp;000 чисел за раз, до 999&thinsp;999&thinsp;999            </p>
+        <form name="quick" action="/quick" method="get" data-loadtext="Генерируем результаты">
+            <div class="field">
+                <div class="mb-1">
+                    <label class="label">В диапазоне</label>
+                </div>
+                <div class="field is-flex is-align-content-stretch">
+                    <div class="range_label mr-2">
+                        от
+                    </div>
+                    <div class="control">
+                        <input id="num_from" name="from" class="input has-text-centered" type="number" value="1" required  min="0" max="999999999" placeholder="0" autocomplete="off" onchange="set_num_from();">
+                    </div>
+                    <div class="range_label mx-2">до
+                    </div>
+                    <div class="control">
+                        <input id="num_to" name="to" class="input has-text-centered" type="number" value="100" required  min="0" max="999999999" placeholder="999&thinsp;999&thinsp;999" autocomplete="off" onchange="set_num_to();">
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <div class="mb-1">
+                    <label class="label">Получить</label>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <div class="level is-mobile">
+                            <div class="level-left is-flex-direction-row">
+                                <div class="level-item">
+                                    <input id="num_count" name="count" class="input with_numeral has-text-centered" type="number" value="1"  min="1" max="1000" size="3" autocomplete="off" data-label="num_label" onchange="set_num_count()">
+                                </div>
+                                <div class="level-item ml-1"><span id="num_label">число</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field mb-0">
+                <input name="norepeat" id="num_norepeat" type="checkbox" class="switch is-rounded is-link is-outlined"  value="1" onclick="set_num_norepeat();">
+                <label for="num_norepeat">Без повторов</label>
+            </div>
+            <div class="field">
+                <input name="sort" id="num_sort" type="checkbox" class="switch is-rounded is-link is-outlined"  value="1" onchange="set_num_sort()">
+                <label for="num_sort">Сортировать по порядку</label>
+            </div>
+            <div class="field mb-0">
+                <div class="control">
+                    <a href="generator.html"  class="button is-link is-fullwidth is-medium"> Сгенерировать
+                        <!-- <button type="submit"  class="button is-link is-fullwidth is-medium">Сгенерировать</button> -->
+                    </a>
+                </div>
+            </div>
+            <input id="max_count" value="1000" type="hidden">
+        </form>
+
+    </div>
+
+</div>
+<div class="content is-size-6 form-box rnd-no-outline rnd-background-white pt-3">
+    <p class=" mb-1">Популярные комбинации чисел</p>
+    <div class="tags">
+        <span class="tag"><a href="generator.html?from=1&to=20&count=4&norepeat=1&sort=1" onclick="set_params(1, 20, 4, 1, 1)">4&nbsp;из&nbsp;20</a></span>
+        <span class="tag"><a href="generator.html?from=1&to=36&count=5&norepeat=1&sort=1" onclick="set_params(1, 36, 5, 1, 1)">5&nbsp;из&nbsp;36</a></span>
+        <span class="tag"><a href="generator.html?from=1&to=36&count=6&norepeat=1&sort=1" onclick="set_params(1, 36, 6, 1, 1)">6&nbsp;из&nbsp;36</a></span>                            
+        <span class="tag"><a href="generator.html?from=1&to=45&count=6&norepeat=1&sort=1" onclick="set_params(1, 45, 6, 1, 1)">6&nbsp;из&nbsp;45</a></span>
+        <span class="tag"><a href="generator.html?from=1&to=49&count=7&norepeat=1&sort=1" onclick="set_params(1, 49, 7, 1, 1)">7&nbsp;из&nbsp;49</a></span>
+        <span class="tag"><a href="/lottery">все варианты для лотерей</a></span>
+    </div>
+</div>    </div>
+    <div class="column">
+        <!-- <div class='mmb mb-4'>
+            <div id="yandex_rtb_R-A-715785-1" class="min-height-block">
+    
+            </div>
+            <script>window.yaContextCb.push(()=>{
+                    Ya.Context.AdvManager.render({
+                        renderTo: 'yandex_rtb_R-A-715785-1',
+                        blockId: 'R-A-715785-1'
+                    })
+                })</script>
+        </div> -->
+        <nav class="bd-links mb-5">
+            <a class="bd-link" href="/simple">
+    <h2 class="bd-link-name">
+        <figure class="bd-link-figure"><span class='bd-link-icon has-text-link is-size-4'><i class='fad fa-binary'></i></span></figure>
+        Лаконичный рандомайзер
+    </h2>
+    <p class="bd-link-subtitle">Наглядный и простой. Может генерировать серии чисел без повторов, не теряет данные при перезагрузке страницы.
+    </p>
+</a>
+
+<a class="bd-link" href="/list">
+    <h2 class="bd-link-name">
+        <figure class="bd-link-figure"><span class='bd-link-icon has-text-link is-size-4'><i class='fad fa-list-radio'></i></span></figure>
+        Выбор победителя из списка
+    </h2>
+    <p class="bd-link-subtitle">Работает на больших списках (проверено до 1&thinsp;000&thinsp;000 строк).
+        Есть фильтр дубликатов. Результаты не храним.
+    </p>
+</a>
+
+<a class="bd-link" href="/special">
+    <h2 class="bd-link-name">
+        <figure class="bd-link-figure"><span class='bd-link-icon has-text-link is-size-4'><i class='fad fa-ranking-star'></i></span></figure>
+        Рандомус<sup>special</sup>
+    </h2>
+    <p class="bd-link-subtitle">Инструмент для проведения розыгрышей призов онлайн, в один или несколько этапов, с возможностью настройки механики и внешнего вида.
+    </p>
+</a>
+
+<a class="bd-link" href="/split">
+    <h2 class="bd-link-name">
+        <figure class="bd-link-figure"><span class='bd-link-icon has-text-link is-size-4'><i class='fad fa-split'></i></span></figure>
+        Разделить список на группы
+    </h2>
+    <p class="bd-link-subtitle">Делит список на заданное количество групп или на группы с заданным количеством участников.
+    </p>
+</a>
+
+<a class="bd-link" href="/vk">
+    <h2 class="bd-link-name">
+        <figure class="bd-link-figure"><span class='bd-link-icon has-text-link is-size-4'><i class='fab fa-vk'></i></span></figure>
+        Конкурс ВКонтакте
+    </h2>
+    <p class="bd-link-subtitle">Считаем лайки, репосты и комментарии к записям, проверяем наличие в
+        подписчиках/друзьях в любых комбинациях. Храним все результаты.
+    </p>
+</a>
+
+<a class="bd-link" href="/number?type=generate">
+    <h2 class="bd-link-name">
+        <figure class="bd-link-figure"><span class='bd-link-icon has-text-link is-size-4'><i class='fad fa-link'></i></span></figure>
+        Случайные числа с картинкой и ссылкой на результат
+    </h2>
+    <p class="bd-link-subtitle">Результат сохраним. У него будет постоянная ссылка и готовая картинка.
+    </p>
+</a>
+
+<a class="bd-link" href="/number?type=create">
+    <h2 class="bd-link-name">
+        <figure class="bd-link-figure"><span class='bd-link-icon has-text-link is-size-4'><i class='fad fa-pen-nib'></i></span></figure>
+        Розыгрыш с описанием
+    </h2>
+    <p class="bd-link-subtitle">Честный розыгрыш c помощью генератора случайных чисел. Подвести итоги можно
+        только один раз. Подменить результаты невозможно. Данные хранятся бессрочно.
+    </p>
+</a>
+
+<a class="bd-link" href="/name">
+    <h2 class="bd-link-name">
+        <figure class="bd-link-figure"><span class='bd-link-icon has-text-link is-size-4'><i class='fad fa-users'></i></span></figure>
+        Генератор имен и фамилий
+    </h2>
+    <p class="bd-link-subtitle">Для русских и английских имен в различных форматах, с учетом реальной
+        частоты использования в современном мире.
+    </p>
+</a>
+
+<a class="bd-link" href="/nickname">
+    <h2 class="bd-link-name">
+        <figure class="bd-link-figure"><span class='bd-link-icon has-text-link is-size-4'><i class='fad fa-user-secret'></i></span></figure>
+        Генератор случайных ников
+    </h2>
+    <p class="bd-link-subtitle">Работает на основе статистической сочетаемости символов в литературных
+        текстах.
+    </p>
+</a>
+
+<a class="bd-link" href="/password">
+    <h2 class="bd-link-name">
+        <figure class="bd-link-figure"><span class='bd-link-icon has-text-link is-size-4'><i class='fad fa-star-of-life'></i></span></figure>
+        Генератор паролей
+    </h2>
+    <p class="bd-link-subtitle">Настраиваемый генератор безопасных паролей с оценкой их стойкости к подбору.
+    </p>
+</a>
+
+<a class="bd-link" href="/promocode">
+    <h2 class="bd-link-name">
+        <figure class="bd-link-figure"><span class='bd-link-icon has-text-link is-size-4'><i class='fad fa-percent'></i></span></figure>
+        Генератор промокодов для акций и распродаж
+    </h2>
+    <p class="bd-link-subtitle">Настриваемый формат промокода и списка для выгрузки результатов.
+    </p>
+</a>
+
+<a class="bd-link" href="/wordle">
+    <h2 class="bd-link-name">
+        <figure class="bd-link-figure"><span class='bd-link-icon has-text-link is-size-4'><i class='fad fa-square-w'></i></span></figure>
+        Поиск слов из 5 букв.
+    </h2>
+    <p class="bd-link-subtitle">Ищет решение для головоломок со словами по известным данным. Русский и английский словарь.
+    </p>
+</a>
+
+<a class="bd-link" href="/horoscope">
+    <h2 class="bd-link-name">
+        <figure class="bd-link-figure"><span class='bd-link-icon has-text-link is-size-4'><i class='fad fa-stars'></i></span></figure>
+        Генератор гороскопов
+    </h2>
+    <p class="bd-link-subtitle">Астрологические гороскопы в разных тематиках на ближайшие три дня, а также случайный гороскоп для любого знака зодиака.
+    </p>
+</a>
+
+
+
+<a class="bd-link" href="/ask">
+    <h2 class="bd-link-name">
+        <figure class="bd-link-figure"><span class='bd-link-icon has-text-link is-size-4'><i class='fad fa-crystal-ball'></i></span></figure>
+        Выбор случайного ответа
+    </h2>
+    <p class="bd-link-subtitle">Поможет сделать сложный выбор в любой ситуации. Варианты ответов настраиваются.
+    </p>
+</a>
+
+<a class="bd-link" href="/info/special">
+    <h2 class="bd-link-name">
+        <figure class="bd-link-figure"><span class='bd-link-icon has-text-link is-size-4'><i class='fad fa-handshake'></i></span></figure>
+        Индивидуальные проекты
+    </h2>
+    <p class="bd-link-subtitle">Реализация любых идей и сценариев для ваших розыгрышей. Адаптация для трансляций и больших экранов.
+    </p>
+</a>
+
+        </nav>
+        <iframe 
+    src="ad.html" 
+    width="800" 
+    height="1500" 
+    frameborder="0" 
+    scrolling="no"
+    style="border-radius: 12px; border: none;">
+    </iframe>
+    </div>
+
+    
+    
+</div>
+
+    <style type="text/css"> .v1baa99b0{width:100% !important;-webkit-box-sizing:border-box !important;box-sizing:border-box !important;display:-webkit-box !important;display:-ms-flexbox !important;display:flex !important;-webkit-box-pack:justify !important;-ms-flex-pack:justify !important;justify-content:space-between !important;-webkit-box-orient:vertical !important;-webkit-box-direction:normal !important;-ms-flex-direction:column !important;flex-direction:column !important;padding:12px 6px 15px !important;background-color:#fff !important;border:1px solid rgba(0,0,0,.1) !important;border-radius:22px !important} .v1baa99b0 .v8c46e0a7, .v1baa99b0 .y467fd9, .v1baa99b0 .xf834b8fe, .v1baa99b0 .ff29135c3, .v1baa99b0 .be0095acb, .v1baa99b0 .o8d684069, .v1baa99b0 .c35b38764{background-color:rgba(0,0,0,.05) !important;border-radius:4px !important} .v1baa99b0.v5920bb49{background-color:#232325 !important;border:none !important} .v1baa99b0.v5920bb49 .v8c46e0a7, .v1baa99b0.v5920bb49 .y467fd9, .v1baa99b0.v5920bb49 .xf834b8fe, .v1baa99b0.v5920bb49 .ff29135c3, .v1baa99b0.v5920bb49 .be0095acb, .v1baa99b0.v5920bb49 .o8d684069, .v1baa99b0.v5920bb49 .c35b38764{background-color:hsla(0,0%,100%,.05) !important} .v1baa99b0 .ff29135c3{border-radius:14px !important} .c26d545bb{margin-bottom:11px !important;padding-left:6px !important;padding-right:6px !important} .b1600d5c4, .c26d545bb, .l8b3f031{display:-webkit-box !important;display:-ms-flexbox !important;display:flex !important;-webkit-box-orient:horizontal !important;-webkit-box-direction:normal !important;-ms-flex-direction:row !important;flex-direction:row !important;-webkit-box-pack:justify !important;-ms-flex-pack:justify !important;justify-content:space-between !important} .b1600d5c4, .l8b3f031{-webkit-box-align:center !important;-ms-flex-align:center !important;align-items:center !important} .l8b3f031{width:84px !important;height:20px !important} .b1600d5c4{width:114px !important;height:20px !important} .xf834b8fe, .be0095acb{width:16px !important;height:16px !important} .y467fd9{width:90px !important;height:16px !important} .v8c46e0a7{height:16px !important;width:60px !important} .ff29135c3{-webkit-box-flex:1 !important;-ms-flex-positive:1 !important;flex-grow:1 !important} .t2408426d{display:-webkit-box !important;display:-ms-flexbox !important;display:flex !important;-webkit-box-orient:vertical !important;-webkit-box-direction:normal !important;-ms-flex-direction:column !important;flex-direction:column !important} .c35b38764{width:180px !important;height:16px !important;margin:19px 0 0 5px !important} .o8d684069{width:90px !important;height:16px !important;margin:5px 0 4px 5px !important} .pe2cf3c57{display:-webkit-box !important;display:-ms-flexbox !important;display:flex !important;width:100% !important} .pe2cf3c57.g9a749548{padding:0 8px !important;width:calc(100% - 16px) !important;position:relative !important;border-radius:10px 10px 0 0 !important;-webkit-box-orient:vertical !important;-webkit-box-direction:normal !important;-ms-flex-direction:column !important;flex-direction:column !important;background-color:#f0f0f0 !important} .pe2cf3c57.g9a749548.fa18ffca9{background-color:#323233 !important} .pe2cf3c57.g9a749548 .ta837b7b2{z-index:0 !important} .pe4bc3e4d{width:100% !important;-webkit-box-orient:horizontal !important;-ms-flex-direction:row !important;flex-direction:row !important} .ta837b7b2, .pe4bc3e4d{display:-webkit-box !important;display:-ms-flexbox !important;display:flex !important;-webkit-box-direction:normal !important} .ta837b7b2{-webkit-box-orient:vertical !important;-ms-flex-direction:column !important;flex-direction:column !important} .ta837b7b2.h38a07482{position:relative!important} .ta837b7b2:last-child{margin-right:0 !important} .fe2b90b0d:last-child, .d591d86e7:last-child{margin-bottom:0 !important} .a9d46179b{padding:12px 16px 13px !important;position:-webkit-sticky !important;position:sticky !important;top:0 !important;left:0 !important;z-index:1 !important;background-color:#f0f0f0 !important} .a9d46179b.fa18ffca9{background-color:#323233 !important} .ea762109e{height:1px !important;left:0 !important;right:0 !important;bottom:0 !important;position:absolute !important;pointer-events:none !important;z-index:1 !important}</style>
+    <div class="pe2cf3c57"><div class="pe4bc3e4d"><div class="ta837b7b2" id="column_0" style="width: 410px; margin-right: 12px;"><div class="fe2b90b0d" id="f3d6b1ef" data-92d9c8a230="" style="margin-bottom: 12px; max-height: 2460px;"><div></div><div data-r-a-715785-6-f3d6b1ef="" class="csr-uniq3"></div></div><div class="fe2b90b0d" id="20aa2f23" data-0d5c852fb8="" style="margin-bottom: 12px; max-height: 2460px;"><div></div><div data-r-a-715785-6-20aa2f23="" class="csr-uniq12"></div></div></div><div class="ta837b7b2" id="column_1" style="width: 410px; margin-right: 12px;"><div class="fe2b90b0d" id="16b28690" data-f9fdb2cecf="" style="margin-bottom: 12px; max-height: 2460px;"><div></div><div data-r-a-715785-6-16b28690="" class="csr-uniq6"></div></div><div class="fe2b90b0d" id="3aaf04cb" data-f06d2cc8b7="" style="margin-bottom: 12px; max-height: 2460px;"><div></div><div data-r-a-715785-6-3aaf04cb="" class="csr-uniq9"></div></div></div></div></div>
+
+    </section>
+        <footer class="footer py-5 mt-6">
+        <div class="columns has-text-centered-mobile">
+            <div class="column is-narrow">
+                <ul class="footer_list">
+                    <li>
+                        <a href="/info/pay">Как убрать рекламу<span class='icon is-size-7'><i class='far fa-crown'></i></span> </a>
+                    </li>
+                    <li>
+                        <a href="/info/faq">Ответы на частые вопросы</a>
+                    </li>
+                    <li>
+                        <a href="/info/howto">Краткие инструкции</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="column">
+                <ul class="footer_list">
+                    <li>
+                        <a href="/info/special">Индивидуальные проекты</a>
+                    </li>
+                    <li>
+                        <a href="/payment?type=donate">Поддержать Рандомус</a>
+                    </li>
+                    <li>
+                        <a href="/info/about">О Рандомусе</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="column is-narrow pt-0">
+                <div class="likely mb-1" >
+  <div class="vkontakte">Поделиться</div>
+  <div class="odnoklassniki">Класc</div>
+  <div class="telegram"></div>
+  <div class="whatsapp"></div>
+</div>
+                <div class="container mt-3 mb-3">
+                    <a id="alpha" class="button is-shadowless is-light">
+                                <span class="icon has-text-grey">
+                                    <span class='icon'><i class='far fa-envelope'></i></span>                                </span>
+                        <span>Написать нам</span>
+                    </a>
+                    <p id="beta_decript" class="help is-hidden mb-3">
+                        <span class="has-text-weight-bold">Важно!</span> Если вы участник розыгрыша, то за всей<br>
+                        информацией обращайтесь к организатору. Мы не сможем<br>
+                        ответить на вопросы про правила, призы и подобные им.<br>
+                        Предложения повлиять на итоги гарантированно остаются<br>
+                        без ответа, а также могут быть размещены публично.</p>
+                    <a id="beta"></a>
+                </div>
+                <p class="is-size-7">Рандомус — место, где хранят числа</p>
+                <p class="is-size-7">© 2013-2026, <span class="is-clickable" title="Наименование «Рандомус» является зарегистрированным знаком обслуживания.">® 2024-2026</span>. Версия 2.223 (2026.01.12)</p>
+            </div>
+        </div>
+    </footer>
+    </div>
+    <script defer src="short.js"></script>
+    <script defer src="rnd_common.js"></script>
+    <script defer src="script.js"></script>
+
+    <!-- Yandex.Metrika counter -->
+    <!-- <script type="text/javascript" >
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(20712214, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/20712214" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    /Yandex.Metrika counter -->
+
+    <script>
+        const num_norepeat_toggle = document.getElementById('num_norepeat');
+        const num_sort_toggle = document.getElementById('num_sort');
+        const input_field_to = document.getElementById('num_to');
+        const input_field_from = document.getElementById('num_from');
+        const num_count_field = document.getElementById('num_count');
+
+
+        let num_from = get_num_from();
+        let num_to = get_num_to();
+        let num_count = get_num_count();
+
+        let num_norepeat = get_num_norepeat();
+        let num_sort = get_num_sort();
+
+
+        let input_field_from_value = Number(input_field_from.value);
+        let input_field_to_value = Number(input_field_to.value);
+        let num_count_value = Number(num_count_field.value);
+
+        let num_norepeat_value = Number(num_norepeat_toggle.checked);
+        let num_sort_value = Number(num_sort_toggle.checked);
+
+
+        if(num_from != null || num_to != null ){
+            input_field_from.value = num_from;
+            input_field_to.value = num_to;
+        }
+
+        if(num_count != null){
+            num_count_field.value = num_count;
+            if(num_count > 1)
+            {
+                random_num_title.textContent = "Случайные числа";   
+            }
+        }
+
+        if(num_norepeat != null){
+            if(num_norepeat == 0){
+                num_norepeat_toggle.checked = false;
+            }
+            else{
+                num_norepeat_toggle.checked = true;
+            }
+        }
+        if(num_sort != null){
+            if(num_sort == 0){
+                num_sort_toggle.checked = false;
+            }
+            else{
+                num_sort_toggle.checked = true;
+            }
+        }
+
+
+        input_field_from_value = Number(input_field_from.value);
+        input_field_to_value = Number(input_field_to.value);
+        num_count_value = Number(num_count_field.value);
+
+        num_norepeat_value = Number(num_norepeat_toggle.checked);
+        num_sort_value = Number(num_sort_toggle.checked);
+
+
+
+        function set_num_from(){
+            input_field_from_value = input_field_from.value;
+            localStorage.setItem("num_from", input_field_from_value.toString());
+        }
+
+        function set_num_to(){
+            input_field_to_value = input_field_to.value;
+            localStorage.setItem("num_to", input_field_to_value.toString());
+        }
+
+        function set_num_count(){
+            num_count_value = num_count_field.value;
+            localStorage.setItem("num_count", num_count_value.toString());
+        }
+
+
+        function set_num_norepeat(){
+            num_norepeat_value = num_norepeat_toggle.checked;
+            localStorage.setItem("num_norepeat", Number(num_norepeat_value));
+        }
+
+        function set_num_sort(){
+            num_sort_value = num_sort_toggle.checked;
+            localStorage.setItem("num_sort", Number(num_sort_value));
+        }
+
+        function set_params(from_value, to_value, num_c, num_r, num_s){
+            localStorage.setItem("num_from", Number(from_value));
+            localStorage.setItem("num_to", Number(to_value));
+            localStorage.setItem("num_count", Number(num_c));
+            localStorage.setItem("num_norepeat", Number(num_r));
+            localStorage.setItem("num_sort", Number(num_s));
+
+        }
+        function show(){
+            console.log(num_norepeat_toggle.checked);
+        }
+
+        function get_num_from(){
+            return Number(localStorage.getItem("num_from"));
+        }
+
+        function get_num_to(){
+            return Number(localStorage.getItem("num_to"));
+        }
+
+        function get_num_count(){
+            return Number(localStorage.getItem("num_count"));
+        }
+
+        function get_num_norepeat(){
+            return localStorage.getItem("num_norepeat");
+        }
+        function get_num_sort(){
+            return localStorage.getItem("num_sort");
+        }
+
+    </script>
+</body>
+</html>

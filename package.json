@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "canvas": "^3.2.1",
+    "pureimage": "^0.4.18"
+  }
+}

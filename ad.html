@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+        
+        body {
+            background: white;
+            min-height: 100vh;
+        }
+        
+        /* Сетка рекламных блоков */
+        .ads-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Стили рекламных блоков */
+        .ad-block {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e6e6e6;
+            transition: all 0.2s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .ad-block:hover {
+            border-color: #d0d0d0;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* Метка рекламы */
+        .ad-label {
+            padding: 6px 12px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e6e6e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: #666;
+        }
+        
+        .ad-source {
+            font-weight: 500;
+        }
+        
+        .ad-age {
+            background: #f0f0f0;
+            padding: 1px 6px;
+            border-radius: 8px;
+            color: #999;
+        }
+        
+        /* Блок с фотографией */
+        .ad-photo {
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+            position: relative;
+            background: #f5f5f5;
+        }
+        
+        .ad-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .ad-block:hover .ad-photo img {
+            transform: scale(1.02);
+        }
+        
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 14px;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+        }
+        
+        /* Контент рекламы */
+        .ad-content {
+            padding: 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .ad-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        
+        .ad-subtitle {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+        
+        /* Ценник и скидки */
+        .ad-price {
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        
+        .current-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        
+        .old-price {
+            font-size: 13px;
+            color: #999;
+            text-decoration: line-through;
+        }
+        
+        .discount {
+            font-size: 11px;
+            background: #10b981;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        
+        .price-note {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* Разные размеры блоков */
+        .ad-block.small {
+            grid-column: span 1;
+        }
+        
+        .ad-block.medium {
+            grid-column: span 1;
+        }
+        
+        .ad-block.large {
+            grid-column: span 2;
+        }
+        
+        .ad-block.large .ad-photo {
+            height: 200px;
+        }
+        
+        .ad-block.large .ad-title {
+            font-size: 18px;
+        }
+        
+        .ad-block.large .ad-subtitle {
+            font-size: 14px;
+        }
+        
+        /* Блок с кнопкой */
+        .ad-button {
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            align-self: flex-start;
+            transition: background 0.2s ease;
+        }
+        
+        .ad-button:hover {
+            background: #2563eb;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .ads-container {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+            
+            .ad-block.large {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ads-container" id="adsContainer">
+        <!-- Блок 1: Малый с фото -->
+        <div class="ad-block small">
+            <div class="ad-label">
+                <span class="ad-source">without-events.ru</span>
+                <span class="ad-age">РЕКЛАМА · 16+</span>
+            </div>
+            <div class="ad-photo">
+                <img src="https://images.unsplash.com/photo-1627398242454-45a1465c2479?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Серверное оборудование">
+            </div>
+            <div class="ad-content">
+                <div class="ad-title">UFO.Hosting — виртуальные серверы</div>
+                <div class="ad-subtitle">Надежные VPS/VDS в российских дата-центрах с защитой от DDoS</div>
+                <div class="ad-price">
+                    <div class="price-row">
+                        <span class="current-price">от 450₽/мес</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Блок 2: Средний с фото -->
+        <div class="ad-block medium">
+            <div class="ad-label">
+                <span class="ad-source">servers.ru</span>
+                <span class="ad-age">РЕКЛАМА · 18+</span>
+            </div>
+            <div class="ad-photo">
+                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Выделенные серверы">
+            </div>
+            <div class="ad-content">
+                <div class="ad-title">Выделенные серверы Dell PowerEdge</div>
+                <div class="ad-subtitle">Мощные конфигурации для высоконагруженных проектов и игровых серверов</div>
+                <div class="ad-price">
+                    <div class="price-row">
+                        <span class="current-price">от 17 000₽/мес</span>
+                    </div>
+                    <div class="price-note">Безлимитный трафик</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Блок 3: Большой с фото -->
+        <div class="ad-block large">
+            <div class="ad-label">
+                <span class="ad-source">cloud.ru</span>
+                <span class="ad-age">РЕКЛАМА · 16+</span>
+            </div>
+            <div class="ad-photo">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Облачные вычисления">
+            </div>
+            <div class="ad-content">
+                <div class="ad-title">Облачные вычисления для бизнеса</div>
+                <div class="ad-subtitle">Масштабируемая инфраструктура, гибкая тарификация, безопасное хранение данных. Миграция и поддержка 24/7</div>
+                <div class="ad-price">
+                    <div class="price-row">
+                        <span class="current-price">Индивидуальный расчет</span>
+                    </div>
+                    <div class="price-note">Бесплатная консультация</div>
+                </div>
+                <button class="ad-button">Оставить заявку</button>
+            </div>
+        </div>
+        
+        <!-- Блок 4: Малый со скидкой -->
+        <div class="ad-block small">
+            <div class="ad-label">
+                <span class="ad-source">hosting.ru</span>
+                <span class="ad-age">РЕКЛАМА · 16+</span>
+            </div>
+            <div class="ad-photo">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Хостинг">
+            </div>
+            <div class="ad-content">
+                <div class="ad-title">Хостинг WordPress</div>
+                <div class="ad-subtitle">Оптимизированный хостинг для CMS WordPress</div>
+                <div class="ad-price">
+                    <div class="price-row">
+                        <span class="current-price">290₽/мес</span>
+                        <span class="old-price">450₽</span>
+                        <span class="discount">-35%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Блок 5: Средний с фото -->
+        <div class="ad-block medium">
+            <div class="ad-label">
+                <span class="ad-source">domains.ru</span>
+                <span class="ad-age">РЕКЛАМА · 16+</span>
+            </div>
+            <div class="ad-photo">
+                <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Домены">
+            </div>
+            <div class="ad-content">
+                <div class="ad-title">Регистрация доменов и SSL</div>
+                <div class="ad-subtitle">Домены в зонах .ru, .com, .net и SSL-сертификаты</div>
+                <div class="ad-price">
+                    <div class="price-row">
+                        <span class="current-price">от 199₽/год</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Блок 6: Средний с кнопкой -->
+        <div class="ad-block medium">
+            <div class="ad-label">
+                <span class="ad-source">tech-company.ru</span>
+                <span class="ad-age">РЕКЛАМА · 18+</span>
+            </div>
+            <div class="ad-photo">
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="IT решения">
+            </div>
+            <div class="ad-content">
+                <div class="ad-title">IT-решения для предприятий</div>
+                <div class="ad-subtitle">Разработка, внедрение и поддержка корпоративных систем</div>
+                <div class="ad-price">
+                    <div class="price-row">
+                        <span class="current-price">Под ключ</span>
+                    </div>
+                </div>
+                <button class="ad-button">Обсудить проект</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // База данных для рекламных блоков
+        const adDatabase = {
+            hosting: [
+                {
+                    id: 1,
+                    source: "without-events.ru",
+                    title: "UFO.Hosting — виртуальные серверы",
+                    subtitle: "Надежные VPS/VDS в российских дата-центрах с защитой от DDoS",
+                    price: "от 450₽/мес",
+                    note: "",
+                    image: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    age: "16+",
+                    hasButton: false
+                },
+                {
+                    id: 2,
+                    source: "servers.ru",
+                    title: "Выделенные серверы Dell PowerEdge",
+                    subtitle: "Мощные конфигурации для высоконагруженных проектов и игровых серверов",
+                    price: "от 17 000₽/мес",
+                    note: "Безлимитный трафик",
+                    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    age: "18+",
+                    hasButton: false
+                }
+            ],
+            cloud: [
+                {
+                    id: 3,
+                    source: "cloud.ru",
+                    title: "Облачные вычисления для бизнеса",
+                    subtitle: "Масштабируемая инфраструктура, гибкая тарификация, безопасное хранение данных",
+                    price: "Индивидуальный расчет",
+                    note: "Бесплатная консультация",
+                    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                    age: "16+",
+                    hasButton: true,
+                    buttonText: "Оставить заявку"
+                }
+            ],
+            discount: [
+                {
+                    id: 4,
+                    source: "hosting.ru",
+                    title: "Хостинг WordPress",
+                    subtitle: "Оптимизированный хостинг для CMS WordPress",
+                    price: "290₽/мес",
+                    oldPrice: "450₽",
+                    discount: "-35%",
+                    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    age: "16+",
+                    hasButton: false
+                }
+            ],
+            domains: [
+                {
+                    id: 5,
+                    source: "domains.ru",
+                    title: "Регистрация доменов и SSL",
+                    subtitle: "Домены в зонах .ru, .com, .net и SSL-сертификаты",
+                    price: "от 199₽/год",
+                    note: "",
+                    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    age: "16+",
+                    hasButton: false
+                }
+            ],
+            business: [
+                {
+                    id: 6,
+                    source: "tech-company.ru",
+                    title: "IT-решения для предприятий",
+                    subtitle: "Разработка, внедрение и поддержка корпоративных систем",
+                    price: "Под ключ",
+                    note: "",
+                    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    age: "18+",
+                    hasButton: true,
+                    buttonText: "Обсудить проект"
+                }
+            ]
+        };
+        
+        // Функция для создания HTML блока
+        function createAdBlock(ad, size = 'medium') {
+            const hasDiscount = ad.oldPrice && ad.discount;
+            
+            return `
+                <div class="ad-block ${size}" data-id="${ad.id}">
+                    <div class="ad-label">
+                        <span class="ad-source">${ad.source}</span>
+                        <span class="ad-age">РЕКЛАМА · ${ad.age}</span>
+                    </div>
+                    <div class="ad-photo">
+                        <img src="${ad.image}" alt="${ad.title}" loading="lazy">
+                    </div>
+                    <div class="ad-content">
+                        <div class="ad-title">${ad.title}</div>
+                        <div class="ad-subtitle">${ad.subtitle}</div>
+                        <div class="ad-price">
+                            <div class="price-row">
+                                <span class="current-price">${ad.price}</span>
+                                ${hasDiscount ? `<span class="old-price">${ad.oldPrice}</span>` : ''}
+                                ${hasDiscount ? `<span class="discount">${ad.discount}</span>` : ''}
+                            </div>
+                            ${ad.note ? `<div class="price-note">${ad.note}</div>` : ''}
+                        </div>
+                        ${ad.hasButton ? `<button class="ad-button">${ad.buttonText}</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Функция для генерации случайных рекламных блоков
+        function generateRandomAds(count = 6) {
+            const container = document.getElementById('adsContainer');
+            container.innerHTML = '';
+            
+            // Собираем все рекламы в один массив
+            const allAds = [];
+            Object.values(adDatabase).forEach(category => {
+                allAds.push(...category);
+            });
+            
+            // Выбираем случайные рекламы
+            const selectedAds = [];
+            const usedIds = new Set();
+            
+            while (selectedAds.length < count && selectedAds.length < allAds.length) {
+                const randomAd = allAds[Math.floor(Math.random() * allAds.length)];
+                if (!usedIds.has(randomAd.id)) {
+                    usedIds.add(randomAd.id);
+                    selectedAds.push(randomAd);
+                }
+            }
+            
+            // Определяем размеры для блоков
+            const sizes = ['small', 'medium', 'large'];
+            
+            // Создаем блоки
+            selectedAds.forEach((ad, index) => {
+                let size;
+                if (index === 0 || index === 3) {
+                    size = 'small';
+                } else if (index === 2) {
+                    size = 'large';
+                } else {
+                    size = 'medium';
+                }
+                
+                container.innerHTML += createAdBlock(ad, size);
+            });
+            
+            // Добавляем обработчики событий
+            addEventListeners();
+        }
+        
+        // Функция для добавления обработчиков событий
+        function addEventListeners() {
+            // Обработчик кликов на рекламные блоки
+            document.querySelectorAll('.ad-block').forEach(block => {
+                block.addEventListener('click', function(e) {
+                    // Не обрабатываем клики по кнопкам
+                    if (e.target.classList.contains('ad-button')) {
+                        return;
+                    }
+                    
+                    // Анимация клика
+                    this.style.transform = 'scale(0.99)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                    
+                    // Логирование (в реальном проекте здесь будет переход)
+                    const source = this.querySelector('.ad-source').textContent;
+                    console.log(`Переход по рекламе: ${source}`);
+                });
+            });
+            
+            // Обработчик кликов на кнопки
+            document.querySelectorAll('.ad-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    // Анимация нажатия
+                    const originalText = this.textContent;
+                    this.textContent = 'Заявка отправлена';
+                    this.style.background = '#10b981';
+                    
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.style.background = '';
+                    }, 2000);
+                    
+                    console.log('Заявка отправлена');
+                });
+            });
+        }
+        
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            // Автоматическое обновление рекламы каждые 60 секунд
+            setInterval(() => {
+                generateRandomAds();
+                console.log('Реклама обновлена');
+            }, 60000);
+            
+            // Первоначальная загрузка
+            addEventListeners();
+        });
+        
+        // Экспортируем функции для использования извне
+        window.AdsManager = {
+            generateRandomAds,
+            createAdBlock,
+            adDatabase
+        };
+    </script>
+</body>
+</html>

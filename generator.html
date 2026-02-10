@@ -474,7 +474,7 @@
         let currentNumberElement = 0;
 
         // УКАЗЫВАТЬ ВЫИГРАШНЫЕ ЧИСЛА В МАССИВ
-        let win_numbers = [44, 52, 100, 15, 11]
+        let win_numbers = [];
 
 
         let w_nums = localStorage.getItem('win_numbers');
@@ -483,12 +483,30 @@
             localStorage.setItem('win_numbers', JSON.stringify(win_numbers));
         }
         
+
+        console.log(get_num_norepeat());
+
+        if(get_num_norepeat() == null && get_num_sort() == null)
+        {
+            localStorage.setItem("num_sort", 0);
+            localStorage.setItem("num_norepeat", 0);
+        }
+
+
+        if(get_num_from() == 0 && get_num_count() == 0 && get_num_to() == 0)
+        {
+            localStorage.setItem("num_count", num_count_field.value.toString());
+            localStorage.setItem("num_to", input_field_to.value.toString());
+            localStorage.setItem("num_from", input_field_from.value.toString());
+        }
+
         let num_from = get_num_from();
         let num_to = get_num_to();
         let num_count = get_num_count();
 
         let num_norepeat = get_num_norepeat();
         let num_sort = get_num_sort();
+
 
         if(num_from != null || num_to != null ){
             input_field_from.value = num_from;
@@ -595,7 +613,7 @@
         };
         
 
-        function createResultElement(number, index) {
+        function createResultElement(number, index, delay = 0) {
             const div = document.createElement('div');
             div.className = 'result_items result_element fade copy_button';
             div.id = `result_copy_button_${index}`;
@@ -606,6 +624,155 @@
                 <span class="result_items_serial is-size-7 has-text-grey-light"> ${index + 1}</span>
                 <span class="has-text-weight-bold is-size-2 is-size-3-mobile is-size-2-widescreen">${number}</span>
             `;
+
+            // СБРАСЫВАЕМ ВСЕ СТИЛИ СНАЧАЛА
+            // div.style.cssText = '';
+
+            // Сразу ставим начальное состояние (как .fade класс)
+            div.style.opacity = '0';
+            div.style.transform = 'scale(0.3)';
+
+            // Ждем задержку и запускаем анимацию
+            setTimeout(() => {
+                // Добавляем класс с анимацией
+                div.classList.add('fade-in-scale-animation');
+                
+                // Убираем начальные inline-стили
+                div.style.opacity = '';
+                div.style.transform = '';
+                
+                // Убираем класс анимации после завершения (опционально)
+                // setTimeout(() => {
+                //     div.classList.remove('fade-in-scale-animation');
+                // }, 750);
+            }, delay);
+
+
+
+
+            // Сразу показываем элемент
+            // div.style.opacity = '1';
+            // div.style.transition = `
+            //     opacity 750ms cubic-bezier(0.65, 0.05, 0.36, 1),
+			// 	transform 750ms cubic-bezier(0.65, 0.05, 0.23, 2.01);
+            // `;
+            
+            // // Но делаем его невидимым через filter (браузер не кеширует это)
+            // div.style.filter = 'opacity(0)';
+            
+            // // Простая анимация вручную
+            // setTimeout(() => {
+            //     let opacity = 0;
+            //     const startTime = Date.now();
+            //     const duration = 500; // 0.5 секунды
+                
+            //     const animate = () => {
+            //         const elapsed = Date.now() - startTime;
+            //         const progress = Math.min(elapsed / duration, 1);
+                    
+            //         // Линейная анимация от 0 до 1
+            //         opacity = progress;
+                    
+            //         // Применяем filter вместо opacity (работает всегда)
+            //         div.style.filter = `opacity(${opacity})`;
+                    
+            //         if (progress < 1) {
+            //             requestAnimationFrame(animate);
+            //         } else {
+            //             // В конце убираем filter
+            //             div.style.filter = 'none';
+            //         }
+            //     };
+                
+            //     animate();
+            //     div.classList.remove("fade");
+            // }, delay);
+
+
+
+
+
+
+            // Устанавливаем начальные стили
+            // div.style.opacity = '0';
+            
+            // // Ключевое: используем setTimeout для установки transition
+            // // после того как элемент добавлен в DOM
+            // setTimeout(() => {
+            //     // Проверяем, что элемент все еще в DOM
+            //     if (!div.isConnected) return;
+                
+            //     // Принудительный reflow
+            //     void div.offsetWidth;
+                
+            //     // Устанавливаем transition
+            //     div.style.transition = `
+            //     opacity 750ms cubic-bezier(0.65, 0.05, 0.36, 1),
+			// 	/*transform 750ms cubic-bezier(0.65, 0.05, 0.44, 1.35);*/
+			// 	transform 750ms cubic-bezier(0.65, 0.05, 0.23, 2.01);
+            // `;
+                
+            //     // И сразу opacity
+            //     requestAnimationFrame(() => {
+            //         div.style.opacity = '1';
+            //     });
+            // }, delay + 10); // +10ms гарантирует, что элемент уже в DOM
+
+
+
+
+
+
+            // Начальное состояние
+            // div.style.opacity = '0';
+            // div.style.visibility = 'hidden'; // Это скроет элемент полностью
+
+            // // Настройка transition
+            // div.style.transition = `
+            //     opacity 750ms cubic-bezier(0.65, 0.05, 0.36, 1),
+            //     visibility 0s linear ${delay + 500}ms,
+			// 	/*transform 750ms cubic-bezier(0.65, 0.05, 0.44, 1.35);*/
+			// 	transform 750ms cubic-bezier(0.65, 0.05, 0.23, 2.01);
+            // `;
+            
+            // // Принудительный reflow для сброса любых предыдущих анимаций
+            // // void div.offsetWidth;
+
+            // // Запуск анимации с задержкой
+            // setTimeout(() => {
+            //     // Показываем элемент перед анимацией
+            //     div.style.visibility = 'visible';
+            //     // div.style.height = 'auto'; // или конкретная высота
+                
+            //     // Затем запускаем opacity анимацию
+            //     requestAnimationFrame(() => {
+            //     //     div.style.transition = `
+            //     //     opacity 750ms cubic-bezier(0.65, 0.05, 0.36, 1),
+            //     //     transform 750ms cubic-bezier(0.65, 0.05, 0.23, 2.01);
+            //     // `;
+            //         div.style.opacity = '1';
+            //     });
+            // }, delay);
+
+
+            // Запуск анимации
+            // setTimeout(() => {
+            //     div.style.opacity = '1';
+            // }, 10); // Небольшая задержка для запуска
+
+            // div.style.transform = 'translateY(20px)';
+            
+            // // Анимация
+            // setTimeout(() => {
+            //     const animation = div.animate([
+            //         { opacity: 0, transform: 'translateY(20px)' },
+            //         { opacity: 1, transform: 'translateY(0)' }
+            //     ], {
+            //         duration: 500,
+            //         easing: 'ease-out',
+            //         fill: 'forwards'
+            //     });
+            // }, delay);
             
             return div;
         }
@@ -626,9 +793,21 @@
                     localStorage.setItem('win_numbers', JSON.stringify(w_num))
                     result_copy_button.setAttribute('data-clipboard-text', number.toString());
                     result_button.textContent = number.toString();
-                    const element = createResultElement(number, 1);
+
+                    const element = createResultElement(number, 0);
                     container.appendChild(element);
-                    return number;
+
+                    // requestAnimationFrame(() => {
+                    //         // отрисовка...
+                    //         const element = createResultElement(number, 0);
+                    //         container.appendChild(element);
+                            
+                    //         setTimeout(() => {
+                    //             delete_class_blocks(element);
+                    //         }, 500);
+                    //     });
+
+                    // return number;
                 }
 
                 else if(num_count > 1 && num_sort == 0){
@@ -648,8 +827,18 @@
 
                         numbers.push(w_num[i]);
 
-                        const element = createResultElement(w_num[i], i);
+                        const element = createResultElement(w_num[i], i, i*100);
                         container.appendChild(element);
+
+                        // requestAnimationFrame(() => {
+                        //     // отрисовка...
+                        //     const element = createResultElement(w_num[i], i);
+                        //     container.appendChild(element);
+                            
+                        //     setTimeout(() => {
+                        //         delete_class_blocks(element);
+                        //     }, 500);
+                        // });
 
                         console.log("INDEX");
                         console.log(w_num[i]);
@@ -680,9 +869,19 @@
 
                         
 
-                        const element = createResultElement(w_num[i], i);
+                        const element = createResultElement(w_num[i], i, i*100);
 
                         container.appendChild(element);
+
+                        //  requestAnimationFrame(() => {
+                        //         // отрисовка...
+                        //         const element = createResultElement(w_num[i], i);
+                        //         container.appendChild(element);
+                                
+                        //         setTimeout(() => {
+                        //             delete_class_blocks(element);
+                        //         }, 500);
+                        //     });
                     }
                     w_num.splice(0, num_count);
                     localStorage.setItem('win_numbers', JSON.stringify(w_num))
@@ -701,8 +900,21 @@
                     result_copy_button.setAttribute('data-clipboard-text', number.toString());
                     result_button.textContent = number.toString();
                     result_textarea_elem.textContent = number.toString();
-                    const element = createResultElement(number, 1);
+                    
+                    const element = createResultElement(number, 0);
                     container.appendChild(element);
+
+                    // requestAnimationFrame(() => {
+                    //     // отрисовка...
+                    //     const element = createResultElement(number, 0);
+                    //     container.appendChild(element);
+
+                    //     setTimeout(() => {
+                    //         delete_class_blocks(element);
+                    //     }, 500);
+                    // });
+
+                    // setTimeout(delete_class_blocks(element), 1);
                     return number;
                     
                     
@@ -721,9 +933,20 @@
                             number = numbers[i];
                             console.log("YAYAYAYAAYAYAY");
                             console.log(number);
-                            const element = createResultElement(number, i);
-                            // element.classList.remove("fade");
+                            const current_number = numbers[i];
+                            const current_index = i;
+                            const element = createResultElement(number, i, i * 100);
                             container.appendChild(element);
+
+                            // requestAnimationFrame(() => {
+                            //     // отрисовка...
+                            //     const element = createResultElement(current_number, current_index);
+                            //     container.appendChild(element);
+                                
+                            //     setTimeout(() => {
+                            //         delete_class_blocks(element);
+                            //     }, 50);
+                            // });
                         }
                     }
 
@@ -731,8 +954,19 @@
                         numbers.sort((a, b) => a - b);
                         for(let i = 0; i < num_count; i++){
                             number = numbers[i];
-                            const element = createResultElement(number, i);
+                            const element = createResultElement(number, i, i*100);
                             container.appendChild(element);
+
+
+                            // requestAnimationFrame(() => {
+                            //     // отрисовка...
+                            //     const element = createResultElement(number, i);
+                            //     container.appendChild(element);
+                                
+                            //     setTimeout(() => {
+                            //         delete_class_blocks(element);
+                            //     }, 500);
+                            // });
                             // element.classList.remove("fade");
 
 
@@ -760,8 +994,18 @@
                     {   
                         new_numbers_all = allNumbers.slice(0, num_count);
                         for(let i = 0; i < new_numbers_all.length; i++){
-                            const element = createResultElement(allNumbers[i], i);
+                            const element = createResultElement(allNumbers[i], i, i*100);
                             container.appendChild(element);
+
+                            //  requestAnimationFrame(() => {
+                            //     // отрисовка...
+                            //     const element = createResultElement(allNumbers[i], i);
+                            //     container.appendChild(element);
+                                
+                            //     setTimeout(() => {
+                            //         delete_class_blocks(element);
+                            //     }, 500);
+                            // });
                         }
                         result_textarea_elem.textContent = new_numbers_all.toString();
                         return allNumbers.slice(0, num_count);
@@ -773,8 +1017,19 @@
                         result.sort((a, b) => a - b);
 
                         for(let i = 0; i < result.length; i++){
-                            const element = createResultElement(result[i], i);
+                            const element = createResultElement(result[i], i, i*100);
                             container.appendChild(element);
+
+
+                            //  requestAnimationFrame(() => {
+                            //     // отрисовка...
+                            //     const element = createResultElement(result[i], i);
+                            //     container.appendChild(element);
+                                
+                            //     setTimeout(() => {
+                            //         delete_class_blocks(element);
+                            //     }, 500);
+                            // });
                         }
                         result_textarea_elem.textContent = result.toString();
                         return result;

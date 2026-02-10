@@ -520,10 +520,29 @@
         const input_field_from = document.getElementById('num_from');
         const num_count_field = document.getElementById('num_count');
 
+        console.log(input_field_from.value);
+        console.log(input_field_to.value);
+        console.log(num_count_field.value);
+
+        if(get_num_norepeat() == null && get_num_sort() == null)
+        {
+            localStorage.setItem("num_sort", 0);
+            localStorage.setItem("num_norepeat", 0);
+        }
+
+
+        if(get_num_from() == 0 && get_num_count() == 0 && get_num_to() == 0)
+        {
+            localStorage.setItem("num_count", num_count_field.value.toString());
+            localStorage.setItem("num_to", input_field_to.value.toString());
+            localStorage.setItem("num_from", input_field_from.value.toString());
+        }
 
         let num_from = get_num_from();
         let num_to = get_num_to();
         let num_count = get_num_count();
+
+        
 
         let num_norepeat = get_num_norepeat();
         let num_sort = get_num_sort();
@@ -536,6 +555,8 @@
         let num_norepeat_value = Number(num_norepeat_toggle.checked);
         let num_sort_value = Number(num_sort_toggle.checked);
 
+
+        
 
         if(num_from != null || num_to != null ){
             input_field_from.value = num_from;

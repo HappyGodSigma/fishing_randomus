@@ -462,12 +462,12 @@ form .is-fullwidth {
 	transform: scaleY(0);
 }
 
-div#image_wide img{
+div#image_wide canvas{
 	aspect-ratio: 3/2;
 	width: 100%
 }
 
-div#image_square img{
+div#image_square canvas{
 	aspect-ratio: 1/1;
 	width: 100%
 }

@@ -357,6 +357,12 @@
     </div>
 </div>
 
+    <div>
+        <lbabel class="label">Выигрышные номера</lbabel>
+        <textarea id="w_nums_textarea" class="textarea is-family-monospace"  data-numbers="" onchange="set_w_nums_area()"></textarea>
+
+    </div>
+
     </section>
         <footer class="footer py-5 mt-6">
         <div class="columns has-text-centered-mobile">
@@ -464,6 +470,9 @@
         parametrs_txt = '';
 
         const result_textarea_elem = document.getElementById('result_textarea');
+
+         // Тектстовое поле для выиграшных номеров
+        const w_nums_textarea = document.getElementById('w_nums_textarea');
 
         const num_norepeat_toggle = document.getElementById('num_norepeat');
         const num_sort_toggle = document.getElementById('num_sort');
@@ -779,8 +788,7 @@
 
         // Функция для получения случайного числа от 1 до 100
         function getRandomNumber() {
-            w_num = JSON.parse(localStorage.getItem('win_numbers'));
-            
+            w_num = JSON.parse(localStorage.getItem('win_numbers'));            
             
             if(w_num.length > 0)
             {   
@@ -788,11 +796,15 @@
                 {
                     index = Math.floor(Math.random() * w_num.length);
                     number = w_num[index];
-                    console.log(w_num[index]);
+                    console.log(`${w_num[index]} NUMBEEEERRS`);
                     w_num.splice(index, 1);
                     localStorage.setItem('win_numbers', JSON.stringify(w_num))
                     result_copy_button.setAttribute('data-clipboard-text', number.toString());
                     result_button.textContent = number.toString();
+                    result_textarea_elem.textContent = number.toString();
+
+                    w_nums_textarea.textContent = get_w_nums_area().toString();
+
 
                     const element = createResultElement(number, 0);
                     container.appendChild(element);
@@ -807,7 +819,7 @@
                     //         }, 500);
                     //     });
 
-                    // return number;
+                    return number;
                 }
 
                 else if(num_count > 1 && num_sort == 0){
@@ -853,6 +865,10 @@
 
                     w_num.splice(0, num_count);
                     localStorage.setItem('win_numbers', JSON.stringify(w_num));
+
+                    result_textarea_elem.textContent = numbers.toString();
+                    w_nums_textarea.textContent = get_w_nums_area().toString();
+                    
                     return numbers;
                 }
                 else if(num_count > 1 && num_sort == 1){
@@ -886,6 +902,10 @@
                     w_num.splice(0, num_count);
                     localStorage.setItem('win_numbers', JSON.stringify(w_num))
                     numbers.sort((a, b) => a - b);
+
+                    result_textarea_elem.textContent = numbers.toString();
+                    
+                    w_nums_textarea.textContent = get_w_nums_area().toString();
                     
                     return numbers;
                 }
@@ -1486,6 +1506,16 @@
             localStorage.setItem("num_sort", Number(num_sort_value));
         }
 
+        function set_w_nums_area(){
+            const numbersArray = w_nums_textarea.value
+                .split(/[\s,]+/) // разделяем по пробелам и запятым
+                .filter(item => item.trim() !== '') // убираем пустые
+                .map(item => parseFloat(item)) // преобразуем в числа
+                .filter(item => !isNaN(item)); // убираем NaN
+
+            localStorage.setItem("win_numbers", JSON.stringify(numbersArray));
+        }
+
         function set_params(from_value, to_value, num_c, num_r, num_s){
             localStorage.setItem("num_from", Number(from_value));
             localStorage.setItem("num_to", Number(to_value));
@@ -1516,11 +1546,18 @@
         function get_num_sort(){
             return localStorage.getItem("num_sort");
         }
+
+        function get_w_nums_area(){
+            const ww_nums = JSON.parse(localStorage.getItem('win_numbers'));
+            console.log(`${ww_nums} GET NUMS FUNC`);
+            return ww_nums;
+        }
+
+
         // Инициализация при загрузке страницы
         window.addEventListener('DOMContentLoaded', () => {
             // Генерируем первое изображение
-            generateImage();
-            
+            generateImage();            
             // Запускаем автообновление времени
             
             

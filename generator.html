@@ -1074,55 +1074,268 @@
             return `${day}.${month}.${year} в ${hours}:${minutes}:${seconds} UTC+3`;
         }
 
-        function drawAdaptiveNumberSimple(number, x, y, maxWidth) {
-            const str = number.toString();
-            if(num_count == 1){
-                y = 370;
-            }
 
-            let fontSize = 290;
-            let letterSpacing = 40;
+
+
+
+        // function drawAdaptiveNumberSimple(number, x, y, maxWidth) {
+        //     // const str = number.toString();
+        //     // if(num_count == 1){
+        //     //     y = 370;
+        //     // }
+
+        //     // let fontSize = 290;
+        //     // let letterSpacing = 40;
             
-            // Уменьшаем шрифт пока не поместится
+        //     // // Уменьшаем шрифт пока не поместится
+        //     // ctx.font = `900 ${fontSize}px Roboto Slab, sans-serif`;
+        //     // ctx.letterSpacing = `${letterSpacing}px`;
+
+        //     // while (ctx.measureText(str).width > maxWidth && fontSize > 20) {
+        //     //     fontSize -= 15;
+        //     //     letterSpacing -= 2;
+        //     //     ctx.font = `900 ${fontSize}px Roboto Slab, sans-serif`;
+        //     //     ctx.letterSpacing = `${letterSpacing}px`;
+
+
+
+
+        //     // }
+            
+        //     // // Если все еще не помещается - разбиваем на строки
+        //     // if (ctx.measureText(str).width > maxWidth) {
+        //     //     const lines = [];
+        //     //     const maxChars = Math.floor(maxWidth / (fontSize * 0.6)); // примерная ширина символа
+                
+        //     //     for (let i = 0; i < str.length; i += maxChars) {
+        //     //         lines.push(str.substr(i, maxChars));
+        //     //     }
+                
+        //     //     const lineHeight = fontSize * 1.2;
+        //     //     const totalHeight = lines.length * lineHeight;
+        //     //     const startY = y - totalHeight / 2 + lineHeight / 2;
+                
+        //     //     lines.forEach((line, idx) => {
+        //     //         ctx.fillText(line, x, startY + idx * lineHeight);
+        //     //     });
+                
+        //     //     return lines.length;
+        //     // } else {
+        //     //     // Помещается в одну строку
+        //     //     ctx.fillText(str, x, y);
+        //     //     return 1;
+        //     // }
+
+
+        //     const str = number.toString();
+    
+        //     // Базовая настройка шрифта
+        //     let fontSize = 290; // Начинаем с меньшего шрифта для многострочного текста
+        //     ctx.font = `900 ${fontSize}px Roboto Slab, sans-serif`;
+        //     ctx.textAlign = 'center';
+        //     ctx.textBaseline = 'top';
+        //     ctx.letterSpacing = '0px';
+            
+        //     // Разбиваем на массив чисел (если это несколько чисел)
+        //     let numbers = [];
+        //     if (typeof number === 'string' && number.includes(',')) {
+        //         numbers = str.split(',').map(n => n.trim());
+        //     } else if (Array.isArray(number)) {
+        //         numbers = number.map(n => n.toString());
+        //     } else {
+        //         // Если одно число, но длинное - разбиваем по цифрам для переноса
+        //         const numStr = str.replace(/,/g, ''); // Убираем запятые для подсчета
+        //         if (numStr.length > 10) { // Если больше 10 цифр
+        //             numbers = [];
+        //             for (let i = 0; i < numStr.length; i += 5) {
+        //                 numbers.push(numStr.substr(i, 5));
+        //             }
+        //         } else {
+        //             numbers = [str];
+        //         }
+        //     }
+            
+        //     // Определяем, как группировать числа для отображения
+        //     const displayNumbers = [];
+        //     const numbersPerLine = Math.floor(maxWidth / (fontSize * 1.5));
+            
+        //     if (numbers.length > 1) {
+        //         // Группируем числа по строкам
+        //         for (let i = 0; i < numbers.length; i += 5) { // По 5 чисел в строке
+        //             const lineNumbers = numbers.slice(i, i + 5);
+        //             displayNumbers.push(lineNumbers.join(', '));
+        //         }
+        //     } else {
+        //         displayNumbers.push(str);
+        //     }
+            
+        //     // Вычисляем высоту текста
+        //     const lineHeight = fontSize * 1.5;
+        //     const totalHeight = displayNumbers.length * lineHeight;
+        //     const startY = y - totalHeight / 2;
+            
+        //     // Рисуем каждую строку
+        //     displayNumbers.forEach((line, index) => {
+        //         ctx.fillText(line, x, startY + (index * lineHeight));
+        //     });
+            
+        //     return displayNumbers.length;
+        // }
+        
+        
+
+
+
+
+function drawAdaptiveNumberUltimate(number, x, y, maxWidth) {
+    const str = number.toString();
+    
+    // Определяем, с чем мы работаем - одно число или массив
+    let numbers = [];
+    if (Array.isArray(number)) {
+        numbers = number.map(n => n.toString());
+    } else if (typeof number === 'string' && number.includes(',')) {
+        numbers = str.split(',').map(n => n.trim());
+    } else {
+        numbers = [str];
+    }
+    
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.letterSpacing = '0px';
+    
+    console.log(`Отображаем ${numbers.length} чисел`);
+    
+    // ЕСЛИ ЭТО ОДНО ЧИСЛО
+    if (numbers.length === 1) {
+        const singleNumber = numbers[0];
+        
+        // Пробуем очень крупные размеры
+        for (let fontSize = 290; fontSize >= 60; fontSize -= 10) {
             ctx.font = `900 ${fontSize}px Roboto Slab, sans-serif`;
-            ctx.letterSpacing = `${letterSpacing}px`;
-
-            while (ctx.measureText(str).width > maxWidth && fontSize > 20) {
-                fontSize -= 15;
-                letterSpacing -= 2;
-                ctx.font = `900 ${fontSize}px Roboto Slab, sans-serif`;
-                ctx.letterSpacing = `${letterSpacing}px`;
-
-
-
-
-            }
             
-            // Если все еще не помещается - разбиваем на строки
-            if (ctx.measureText(str).width > maxWidth) {
-                const lines = [];
-                const maxChars = Math.floor(maxWidth / (fontSize * 0.6)); // примерная ширина символа
+            if (ctx.measureText(singleNumber).width <= maxWidth) {
+                ctx.fillText(singleNumber, x, y);
+                return;
+            }
+        }
+    }
+    
+    // ЕСЛИ ЧИСЕЛ 5 И БОЛЬШЕ - ПРИНУДИТЕЛЬНЫЙ ПЕРЕНОС НА 2 СТРОКИ
+    if (numbers.length >= 6) {
+        console.log(`⚠️ Чисел ${numbers.length}, принудительный перенос на 2 строки`);
+        
+        // Разбиваем на 2 строки (первая строка - первые числа, вторая - остальные)
+        const halfIndex = Math.floor(numbers.length / 2);
+        const line1 = numbers.slice(0, halfIndex).join(', ');
+        const line2 = numbers.slice(halfIndex).join(', ');
+        
+        // Пробуем разные размеры шрифта, начиная с крупного
+        for (let fontSize = 120; fontSize >= 40; fontSize -= 5) {
+            ctx.font = `900 ${fontSize}px Roboto Slab, sans-serif`;
+            
+            const line1Width = ctx.measureText(line1).width;
+            const line2Width = ctx.measureText(line2).width;
+            
+            if (line1Width <= maxWidth && line2Width <= maxWidth) {
+                console.log(`✅ 2 строки, шрифт ${fontSize}px`);
                 
-                for (let i = 0; i < str.length; i += maxChars) {
-                    lines.push(str.substr(i, maxChars));
-                }
-                
-                const lineHeight = fontSize * 1.2;
-                const totalHeight = lines.length * lineHeight;
+                const lineHeight = fontSize * 1.3;
+                const totalHeight = lineHeight * 2;
                 const startY = y - totalHeight / 2 + lineHeight / 2;
                 
-                lines.forEach((line, idx) => {
-                    ctx.fillText(line, x, startY + idx * lineHeight);
-                });
+                ctx.fillText(line1, x, startY);
+                ctx.fillText(line2, x, startY + lineHeight);
                 
-                return lines.length;
-            } else {
-                // Помещается в одну строку
-                ctx.fillText(str, x, y);
-                return 1;
+                return;
             }
         }
         
+        // Если даже с минимальным шрифтом не помещается - динамическое распределение
+        console.log(`⚠️ Динамическое распределение по 2 строкам`);
+        
+        const minFontSize = 45;
+        ctx.font = `900 ${minFontSize}px Roboto Slab, sans-serif`;
+        
+        // Динамически распределяем числа по 2 строкам
+        const dynamicLine1 = [];
+        const dynamicLine2 = [];
+        let currentWidth1 = 0;
+        let currentWidth2 = 0;
+        
+        // Пробуем разные варианты распределения
+        for (let splitPoint = 1; splitPoint < numbers.length; splitPoint++) {
+            const testLine1 = numbers.slice(0, splitPoint).join(', ');
+            const testLine2 = numbers.slice(splitPoint).join(', ');
+            
+            const width1 = ctx.measureText(testLine1).width;
+            const width2 = ctx.measureText(testLine2).width;
+            
+            if (width1 <= maxWidth && width2 <= maxWidth) {
+                // Идеальное распределение
+                const lineHeight = minFontSize * 1.4;
+                const totalHeight = lineHeight * 2;
+                const startY = y - totalHeight / 2 + lineHeight / 2;
+                
+                ctx.fillText(testLine1, x, startY);
+                ctx.fillText(testLine2, x, startY + lineHeight);
+                
+                return;
+            }
+        }
+        
+        // Если ничего не помогло - просто режем пополам
+        const fallbackLine1 = numbers.slice(0, Math.ceil(numbers.length / 2)).join(', ');
+        const fallbackLine2 = numbers.slice(Math.ceil(numbers.length / 2)).join(', ');
+        
+        const lineHeight = minFontSize * 1.4;
+        const totalHeight = lineHeight * 2;
+        const startY = y - totalHeight / 2 + lineHeight / 2;
+        
+        ctx.fillText(fallbackLine1, x, startY);
+        ctx.fillText(fallbackLine2, x, startY + lineHeight);
+        
+        return;
+    }
+    
+    // ДЛЯ 2-4 ЧИСЕЛ - ПЫТАЕМСЯ В 1 СТРОКУ
+    if (numbers.length >= 2 && numbers.length <= 5) {
+        const allNumbersText = numbers.join(', ');
+        
+        // Пробуем крупные шрифты
+        for (let fontSize = 200; fontSize >= 50; fontSize -= 10) {
+            ctx.font = `900 ${fontSize}px Roboto Slab, sans-serif`;
+            
+            if (ctx.measureText(allNumbersText).width <= maxWidth) {
+                ctx.fillText(allNumbersText, x, y);
+                return;
+            }
+        }
+        
+        // Если не помещается - тоже переносим на 2 строки
+        const halfIndex = Math.floor(numbers.length / 2);
+        const line1 = numbers.slice(0, halfIndex).join(', ');
+        const line2 = numbers.slice(halfIndex).join(', ');
+        
+        for (let fontSize = 140; fontSize >= 40; fontSize -= 5) {
+            ctx.font = `900 ${fontSize}px Roboto Slab, sans-serif`;
+            
+            if (ctx.measureText(line1).width <= maxWidth && ctx.measureText(line2).width <= maxWidth) {
+                const lineHeight = fontSize * 1.3;
+                const totalHeight = lineHeight * 2;
+                const startY = y - totalHeight / 2 + lineHeight / 2;
+                
+                ctx.fillText(line1, x, startY);
+                ctx.fillText(line2, x, startY + lineHeight);
+                
+                return;
+            }
+        }
+    }
+}
+
+
+
 
         const imageCache = {};
 
@@ -1320,7 +1533,6 @@
             date_updated.textContent = '' + currentDateTime;
             // Сохраняем данные для отображения
             currentNumberElement = randomNumber;
-            // currentDateElement.textContent = currentDateTime;
             // Очищаем canvas
             
 
@@ -1329,72 +1541,35 @@
             ctx.textAlign = 'center';
             ctx.textBaseline = 'alphabetic';
             
-            // 1. Заголовок "Случайное число"
-            // ctx.fillStyle = config.titleColor;
-            // ctx.font = 'bold 32px Arial, sans-serif';
-            // ctx.fillText('Случайное число', canvas.width / 2, 80);
+
             
             // 2. Большое число
             ctx.fillStyle = config.numberColor;
-            // ctx.font = 'bold 300px Arial, sans-serif';
-            // switch(num_count){
-            //     case 1: ctx.font = '900 290px Roboto Slab, sans-serif'
-            //     ctx.letterSpacing = '40px'
-            //     break;
-
-            //     case 2: ctx.font = '900 290px Roboto Slab, sans-serif'
-            //     ctx.letterSpacing = '40px'
-            //     break;
-
-            //     case 3: ctx.font = '900 250px Roboto Slab, sans-serif'
-            //     ctx.letterSpacing = '40px'
-            //     break;
-
-            //     case 4: ctx.font = '900 200px Roboto Slab, sans-serif'
-            //     ctx.letterSpacing = '25px';
-            //     break;
-
-            //     case 5: ctx.font = '900 130px Roboto Slab, sans-serif'
-            //     ctx.letterSpacing = '25px'
-            //     break;
-
-            //     case 6: ctx.font = '900 100px Roboto Slab, sans-serif'
-            //     ctx.letterSpacing = '20px'
-            //     break;
-
-            //     case 7: ctx.font = '900 80px Roboto Slab, sans-serif'
-            //     ctx.letterSpacing = '15px'
-            //     break;
-
-            //     case 8: ctx.font = '900 80px Roboto Slab, sans-serif'
-            //     ctx.letterSpacing = '15px'
-            //     break;
-
-            //     case 9: ctx.font = '900 70px Roboto Slab, sans-serif'
-            //     ctx.letterSpacing = '10px'
-            //     break;
-
-            //     case 10: ctx.font = '900 70px Roboto Slab, sans-serif'
-            //     ctx.letterSpacing = '10px'
-            //     break;
-
-            //     default: ctx.letterSpacing = '40px'
-            //     break;
 
 
-            // }
+            // Отображение чисел с адаптивным подходом
+            ctx.textBaseline = 'middle';
             
-            // ctx.font = '900 290px Roboto Slab, sans-serif';
-
+            // Определяем Y координату для чисел
+            let numbersY = 300;
+            // if (num_count == 1) {
+            //     numbersY = 310;
+            // }
 
             // ctx.fillText(randomNumber.toString(), canvas.width / 2 + 20, 335); //832
-            drawAdaptiveNumberSimple(randomNumber, canvas.width / 2 + 20, 340, 800);
-            
-            // 3. Синяя точка под числом
-            // ctx.fillStyle = config.dotColor;
-            // ctx.beginPath();
-            // ctx.arc(canvas.width / 2, 280, 6, 0, Math.PI * 2);
-            // ctx.fill();
+            // drawAdaptiveNumberSimple(randomNumber, canvas.width / 2 + 20, 340, 800);
+             // Используем универсальную функцию
+            let result;
+            // if (num_count === 1 && randomNumber.toString().length <= 8) {
+            //     // Для одного небольшого числа используем простую версию
+            //     result = drawAdaptiveSingleNumber(randomNumber, canvas.width / 2 + 20, numbersY, 800);
+            // } else {
+            //     // Для всего остального - универсальную
+            //     result = drawAdaptiveNumberUltimate(randomNumber, canvas.width / 2 + 20, numbersY, 775);
+            // }
+
+            result = drawAdaptiveNumberUltimate(randomNumber, canvas.width / 2 + 20, numbersY, 775);
+
             
             // 4. Мета-информация
             

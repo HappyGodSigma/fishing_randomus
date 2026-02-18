@@ -25,6 +25,10 @@
 	--bulma-modal-card-head-padding: 1.5rem!important;
 }
 
+
+
+/* Подключаем локальные шрифты Roboto Slab */
+
 /*
 @font-face {
 	font-family: "Nunito";

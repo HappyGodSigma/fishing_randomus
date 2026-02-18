@@ -11,7 +11,11 @@
     <meta property="og:title" content="Генератор случайных чисел, рандомайзер | Рандомус"/>
     <meta property="og:type" content="website"/>
     <title>Генератор случайных чисел, рандомайзер | Рандомус</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet"> -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css?19">
     <link rel="stylesheet" href="style.css">
@@ -1551,7 +1555,7 @@ function drawAdaptiveNumberUltimate(number, x, y, maxWidth) {
             ctx.textBaseline = 'middle';
             
             // Определяем Y координату для чисел
-            let numbersY = 300;
+            let numbersY = 280;
             // if (num_count == 1) {
             //     numbersY = 310;
             // }
@@ -1568,7 +1572,7 @@ function drawAdaptiveNumberUltimate(number, x, y, maxWidth) {
             //     result = drawAdaptiveNumberUltimate(randomNumber, canvas.width / 2 + 20, numbersY, 775);
             // }
 
-            result = drawAdaptiveNumberUltimate(randomNumber, canvas.width / 2 + 20, numbersY, 775);
+            result = drawAdaptiveNumberUltimate(randomNumber, canvas.width / 2 + 10, numbersY, 775);
 
             
             // 4. Мета-информация
@@ -1597,7 +1601,7 @@ function drawAdaptiveNumberUltimate(number, x, y, maxWidth) {
             ctx.fillStyle = config.numberColor;
             ctx.font = '900 45px Roboto Slab, sans-serif';
 
-            ctx.fillText(num_tittle, canvas.width / 2, 100);
+            ctx.fillText(num_tittle, canvas.width / 2, 82);
 
             ctx.fillStyle = config.metaColor;
             ctx.font = '21px Roboto Slab, sans-serif';
